@@ -16,15 +16,15 @@ class VeiculoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $dados = $request->validate([
             'empresa_id' => 'required|exists:empresas,id',
             'placa' => 'required|string|max:20',
-            'tipo' => 'required|string|max:50',
+            'tipo' => 'required|in:cavalo,carreta',
             'quantidade_eixos' => 'nullable|integer',
             'quantidade_pneus' => 'nullable|integer',
         ]);
 
-        $veiculo = Veiculo::create($request->all());
+        $veiculo = Veiculo::create($dados);
 
         return response()->json([
             'message' => 'Veículo cadastrado com sucesso',
@@ -34,7 +34,10 @@ class VeiculoController extends Controller
 
     public function show($id)
     {
-        $veiculo = Veiculo::with('empresa', 'checklists.pneus')->findOrFail($id);
+        $veiculo = Veiculo::with([
+            'empresa',
+            'pneusColetados.checklist'
+        ])->findOrFail($id);
 
         return response()->json($veiculo);
     }
@@ -43,15 +46,15 @@ class VeiculoController extends Controller
     {
         $veiculo = Veiculo::findOrFail($id);
 
-        $request->validate([
+        $dados = $request->validate([
             'empresa_id' => 'required|exists:empresas,id',
             'placa' => 'required|string|max:20',
-            'tipo' => 'required|string|max:50',
+            'tipo' => 'required|in:cavalo,carreta',
             'quantidade_eixos' => 'nullable|integer',
             'quantidade_pneus' => 'nullable|integer',
         ]);
 
-        $veiculo->update($request->all());
+        $veiculo->update($dados);
 
         return response()->json([
             'message' => 'Veículo atualizado com sucesso',

@@ -9,19 +9,21 @@ class EmpresaController extends Controller
 {
     public function index()
     {
-        return response()->json(Empresa::with('veiculos')->get());
+        return response()->json(
+            Empresa::with('veiculos', 'composicoes')->get()
+        );
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $dados = $request->validate([
             'nome' => 'required|string|max:255',
             'cnpj' => 'nullable|string|max:20',
             'telefone' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:255',
         ]);
 
-        $empresa = Empresa::create($request->all());
+        $empresa = Empresa::create($dados);
 
         return response()->json([
             'message' => 'Empresa cadastrada com sucesso',
@@ -31,7 +33,13 @@ class EmpresaController extends Controller
 
     public function show($id)
     {
-        $empresa = Empresa::with('veiculos.checklists.pneus')->findOrFail($id);
+        $empresa = Empresa::with([
+            'veiculos',
+            'composicoes.cavalo',
+            'composicoes.carreta1',
+            'composicoes.carreta2',
+            'composicoes.checklists.pneus'
+        ])->findOrFail($id);
 
         return response()->json($empresa);
     }
@@ -40,14 +48,14 @@ class EmpresaController extends Controller
     {
         $empresa = Empresa::findOrFail($id);
 
-        $request->validate([
+        $dados = $request->validate([
             'nome' => 'required|string|max:255',
             'cnpj' => 'nullable|string|max:20',
             'telefone' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:255',
         ]);
 
-        $empresa->update($request->all());
+        $empresa->update($dados);
 
         return response()->json([
             'message' => 'Empresa atualizada com sucesso',
