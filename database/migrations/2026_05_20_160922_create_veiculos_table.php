@@ -15,10 +15,16 @@ return new class extends Migration
     {
         Schema::create('veiculos', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('empresa_id')
+                ->constrained('empresas')
+                ->onDelete('cascade');
+
             $table->string('placa');
             $table->string('tipo'); // cavalo, carreta
             $table->integer('quantidade_eixos')->nullable();
             $table->integer('quantidade_pneus')->nullable();
+
             $table->timestamps();
         });
     }
