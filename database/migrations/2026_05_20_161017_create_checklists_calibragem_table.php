@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('checklists_calibragem', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('veiculo_id')->constrained('veiculos');
+            $table->foreignId('composicao_id')
+                ->constrained('composicoes')
+                ->onDelete('cascade');
             $table->date('data_coleta');
             $table->string('tecnico_nome')->nullable();
             $table->text('observacoes')->nullable();

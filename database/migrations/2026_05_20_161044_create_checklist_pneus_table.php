@@ -19,6 +19,10 @@ return new class extends Migration
                 ->constrained('checklists_calibragem')
                 ->onDelete('cascade');
 
+            $table->foreignId('veiculo_id')
+                ->constrained('veiculos')
+                ->onDelete('cascade');
+
             $table->integer('posicao'); // Ex: 1, 2, 3, 4...
             $table->integer('libragem'); // Ex: 110, 120, 125
 
