@@ -1,0 +1,25 @@
+services:
+  app:
+    build: .
+    container_name: sistema_libragem_app
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: sistema_libragem_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: sistema_libragem
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
