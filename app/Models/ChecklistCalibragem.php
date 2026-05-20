@@ -9,16 +9,16 @@ class ChecklistCalibragem extends Model
     protected $table = 'checklists_calibragem';
 
     protected $fillable = [
-        'veiculo_id',
+        'composicao_id',
         'data_coleta',
         'tecnico_nome',
         'observacoes',
         'status',
     ];
 
-    public function veiculo()
+    public function composicao()
     {
-        return $this->belongsTo(Veiculo::class);
+        return $this->belongsTo(Composicao::class);
     }
 
     public function pneus()
