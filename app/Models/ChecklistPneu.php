@@ -10,6 +10,7 @@ class ChecklistPneu extends Model
 
     protected $fillable = [
         'checklist_id',
+        'veiculo_id',
         'posicao',
         'libragem',
         'status',
@@ -18,5 +19,10 @@ class ChecklistPneu extends Model
     public function checklist()
     {
         return $this->belongsTo(ChecklistCalibragem::class, 'checklist_id');
+    }
+
+    public function veiculo()
+    {
+        return $this->belongsTo(Veiculo::class);
     }
 }

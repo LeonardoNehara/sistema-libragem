@@ -19,8 +19,23 @@ class Veiculo extends Model
         return $this->belongsTo(Empresa::class);
     }
 
-    public function checklists()
+    public function composicoesComoCavalo()
     {
-        return $this->hasMany(ChecklistCalibragem::class);
+        return $this->hasMany(Composicao::class, 'cavalo_id');
+    }
+
+    public function composicoesComoCarreta1()
+    {
+        return $this->hasMany(Composicao::class, 'carreta_1_id');
+    }
+
+    public function composicoesComoCarreta2()
+    {
+        return $this->hasMany(Composicao::class, 'carreta_2_id');
+    }
+
+    public function pneusColetados()
+    {
+        return $this->hasMany(ChecklistPneu::class);
     }
 }
